@@ -30,6 +30,3 @@
 *.exe
 *.out
 *.appetd::cout << std::endl;
-
-# Temp file
-*.cpp~

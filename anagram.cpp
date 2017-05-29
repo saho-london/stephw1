@@ -5,7 +5,7 @@
 #include <fstream>
 #include <algorithm>
 
-std::map<std::string, std::vector<std::string> > words;
+std::map<std::string, std::vector<std::string> > dictionary;
 
 void init() {
 	std::ifstream ifs("dictionary.words");
@@ -19,23 +19,32 @@ void init() {
 		}
 		std::string sorted = word;
 		std::sort(sorted.begin(), sorted.end());
-		words[sorted].push_back(word);
+		dictionary[sorted].push_back(word);
 	}
+}
+
+bool find_words(std::string target, std::vector<std::string> &words) {
+	std::sort(target.begin(), target.end());
+	auto iter = dictionary.find(target);
+	if (iter != dictionary.end()) {
+		words = iter->second;
+	}
+	return iter != dictionary.end();
 }
 
 int main(){
 	init();
 	std::string problem;
 	std::cin >> problem;
-	std::sort(problem.begin(), problem.end());
-	auto iter = words.find(problem);
-	if (iter != words.end()) {
-		for(auto element: iter->second) {
+	std::vector<std::string> answers;
+	if(find_words(problem, answers)) {
+		for(auto element: answers){
 			std::cout << element << ",";
 		}
 		std::cout << std::endl;
 	}
-	//for(auto &word : words) {
+
+	//for(auto &word : word) {
 	//	std::cout << word.first << std::endl;
 	//	for(int i = 0; i < word.second.size(); i++) {
 	//		std::cout << word.second[i] << ",";
